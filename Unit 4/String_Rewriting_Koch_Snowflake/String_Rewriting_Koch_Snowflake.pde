@@ -1,5 +1,5 @@
 // Contains the starting, or intial, word (axiom)
-String axiom = "F+F";
+String axiom = "F++F++F";
 
 // Contains the existing word
 String existingWord = "";
@@ -15,6 +15,18 @@ int currentCharacter = 0;
 
 // Will contain all the rules that apply for this L-system
 StringDict rules; 
+
+float initialLength = 300;
+
+int xPosition = 300;
+
+int yPosition = 300;
+
+int direction = 0;
+
+float angle = 60;
+
+float currentLength;
 
 // This function runs once.
 void setup() {
@@ -40,7 +52,7 @@ void setup() {
 
   // Add rules (key-value pairs)
   //         key     value
-  rules.set("F", "F-F");
+  rules.set("F", "F-F++F-F");
 
   // For the first re-write, the existing word is set to the axiom
   existingWord = axiom;
@@ -72,7 +84,7 @@ void keyPressed() {
       rewriteWord();
     }
   }
-  
+
   //If the user presses the 'd' key, draw the new word
   if (key == 'd') {
     turtleDraw(); // draw the current word
@@ -82,20 +94,20 @@ void keyPressed() {
 //Purpose: Take existing word, iterate over each character, make replacements
 //where needed
 void rewriteWord() {
-  
-    background(255, 255, 255);
-  
-    // Print text to the screen
-    // Arguments:
-    //   string, x, y
-    text("The axiom is: " + axiom, 0, 25);
 
-    // Print the existing word
-    text("The existing word: " + existingWord, 0, 50, width, 200);
+  background(255, 255, 255);
 
-    // Print what generation of replacement this is
-    text("Have re-written word this many times: " + rewriteCount, 0, 275);
-  
+  // Print text to the screen
+  // Arguments:
+  //   string, x, y
+  text("The axiom is: " + axiom, 0, 25);
+
+  // Print the existing word
+  text("The existing word: " + existingWord, 0, 50, width, 200);
+
+  // Print what generation of replacement this is
+  text("Have re-written word this many times: " + rewriteCount, 0, 275);
+
   //Iterate over each character
   for (currentCharacter= 0; currentCharacter < existingWord.length(); currentCharacter++) {
 
@@ -114,7 +126,28 @@ void rewriteWord() {
 
     // Print the new word
     text("New word is: " + newWord, 0, 350, width, 200);
-
- 
   }
 }
+
+void turtleDraw() {
+  translate(xPosition, yPosition);
+  rotate(direction);
+  ellipse(0, 0, 10, 10);
+
+  currentLength = initialLength/pow(3, rewriteCount);
+  for (currentCharacter= 0; currentCharacter < newWord.length(); currentCharacter++) {
+
+    if (newWord.charAt(currentCharacter) == 'F') {
+
+      line(0, 0, currentLength, 0);
+      translate(currentLength, 0);
+    } 
+    else if (newWord.charAt(currentCharacter) == '+') {
+      rotate(radians(-angle));
+    } 
+    else if (newWord.charAt(currentCharacter) == '-') {
+      rotate(radians(angle));
+    }
+  }
+}
+
