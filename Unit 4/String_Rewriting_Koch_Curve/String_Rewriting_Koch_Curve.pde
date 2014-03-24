@@ -1,5 +1,5 @@
 // Contains the starting, or intial, word (axiom)
-String axiom = "A";
+String axiom = "F";
 
 // Contains the existing word
 String existingWord = "";
@@ -52,8 +52,7 @@ void setup() {
 
   // Add rules (key-value pairs)
   //         key     value
-  rules.set("A", "A+B+");
-  rules.set("B", "A-B");
+ rules.set("F", "F+F−F−F+F");
 
   // For the first re-write, the existing word is set to the axiom
   existingWord = axiom;
